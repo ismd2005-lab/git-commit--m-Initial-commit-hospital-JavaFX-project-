@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="screen" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RendezVousController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="16" styleClass="page-header">
+            <VBox spacing="4">
+                <Label text="Gestion des rendez-vous" styleClass="page-title" />
+                <Label text="Planning médical, médecins rapides et suivi des statuts" styleClass="page-subtitle" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchRdvField" prefWidth="290" promptText="Rechercher patient ou médecin" styleClass="search-field" />
+            <Button onAction="#handleSearchRendezVous" styleClass="secondary-button" text="Rechercher">
+                <graphic><FontAwesomeIconView glyphName="SEARCH" glyphSize="15" styleClass="button-icon" /></graphic>
+                <tooltip><Tooltip text="Rechercher un rendez-vous" /></tooltip>
+            </Button>
+            <Button onAction="#handleExportRendezVous" styleClass="export-button" text="Exporter">
+                <graphic><FontAwesomeIconView glyphName="DOWNLOAD" glyphSize="15" styleClass="button-icon" /></graphic>
+                <tooltip><Tooltip text="Exporter les rendez-vous en CSV" /></tooltip>
+            </Button>
+        </HBox>
+    </top>
+
+    <left>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="440" styleClass="transparent-scroll">
+            <content>
+                <VBox spacing="16" styleClass="form-panel glass-card">
+                    <padding>
+                        <Insets top="18" right="18" bottom="18" left="18" />
+                    </padding>
+                    <Label text="Planification" styleClass="section-title" />
+
+                    <GridPane hgap="12" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="38" />
+                            <ColumnConstraints percentWidth="62" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                        </rowConstraints>
+
+                        <Label text="Patient" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="patientComboBox" maxWidth="1.7976931348623157E308" promptText="Choisir patient" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Date" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="dateRdvPicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label text="Heure" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TextField fx:id="heureField" promptText="09:30" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label text="Spécialité" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <ComboBox fx:id="specialiteCombo" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                        <Label text="Médecin" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <TextField fx:id="medecinField" promptText="Médecin responsable" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                        <Label text="Statut" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ComboBox fx:id="statutCombo" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                        <Label text="Remarque" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                        <TextArea fx:id="remarqueArea" prefRowCount="4" promptText="Remarque rendez-vous..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    </GridPane>
+
+                    <VBox spacing="8">
+                        <Label text="Liste rapide des médecins" styleClass="muted-label" />
+                        <ListView fx:id="medecinsListView" prefHeight="132" />
+                    </VBox>
+
+                    <HBox spacing="10">
+                        <Button onAction="#handleAddRendezVous" styleClass="primary-button" text="Ajouter">
+                            <graphic><FontAwesomeIconView glyphName="PLUS" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Ajouter le rendez-vous" /></tooltip>
+                        </Button>
+                        <Button onAction="#handleUpdateRendezVous" styleClass="secondary-button" text="Modifier">
+                            <graphic><FontAwesomeIconView glyphName="PENCIL" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Modifier le rendez-vous sélectionné" /></tooltip>
+                        </Button>
+                    </HBox>
+                    <HBox spacing="10">
+                        <Button onAction="#handleDeleteRendezVous" styleClass="danger-button" text="Supprimer">
+                            <graphic><FontAwesomeIconView glyphName="TRASH" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Supprimer le rendez-vous sélectionné" /></tooltip>
+                        </Button>
+                        <Button onAction="#handleClearRendezVous" styleClass="ghost-button" text="Réinitialiser">
+                            <graphic><FontAwesomeIconView glyphName="REFRESH" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Vider le formulaire" /></tooltip>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </left>
+
+    <center>
+        <VBox spacing="14" styleClass="table-panel glass-card">
+            <padding>
+                <Insets top="18" right="18" bottom="18" left="18" />
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Table rendez-vous" styleClass="section-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="Spécialité" styleClass="muted-label" />
+                <ComboBox fx:id="filterSpecialiteCombo" prefWidth="165" />
+                <Label text="Statut" styleClass="muted-label" />
+                <ComboBox fx:id="filterStatutCombo" prefWidth="140" />
+            </HBox>
+
+            <TableView fx:id="rendezVousTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="patientColumn" prefWidth="210" text="Patient" />
+                    <TableColumn fx:id="dateColumn" prefWidth="130" text="Date" />
+                    <TableColumn fx:id="medecinColumn" prefWidth="210" text="Médecin" />
+                    <TableColumn fx:id="statutColumn" prefWidth="130" text="Statut" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+            <Label fx:id="statusLabel" text="Chargement des rendez-vous..." styleClass="status-label" />
+        </VBox>
+    </center>
+</BorderPane>

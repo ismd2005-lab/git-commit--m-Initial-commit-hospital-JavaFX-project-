@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane" styleClass="app-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
+    <top>
+        <MenuBar styleClass="top-menu">
+            <menus>
+                <Menu text="Fichier">
+                    <items>
+                        <MenuItem text="Dashboard" onAction="#showDashboard" />
+                        <MenuItem text="Exporter CSV" onAction="#showExport" />
+                        <MenuItem text="Quitter" onAction="#handleExit" />
+                    </items>
+                </Menu>
+                <Menu text="Edition">
+                    <items>
+                        <MenuItem text="Actualiser" onAction="#refreshDashboard" />
+                        <MenuItem text="Paramètres" onAction="#showSettings" />
+                    </items>
+                </Menu>
+                <Menu text="Aide">
+                    <items>
+                        <MenuItem text="À propos" onAction="#handleAbout" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <left>
+        <VBox prefWidth="268" spacing="18" styleClass="sidebar">
+            <padding>
+                <Insets top="26" right="18" bottom="24" left="18" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="logo-block">
+                <FontAwesomeIconView glyphName="HEARTBEAT" glyphSize="30" styleClass="logo-icon" />
+                <VBox spacing="2">
+                    <Label text="MedVision AI" styleClass="logo-title" />
+                    <Label text="Healthcare Dashboard" styleClass="logo-subtitle" />
+                </VBox>
+            </HBox>
+
+            <Separator />
+
+            <VBox spacing="8" styleClass="nav-list">
+                <Button fx:id="dashboardNavButton" maxWidth="1.7976931348623157E308" onAction="#showDashboard" styleClass="nav-button" text="Dashboard">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="HOME" glyphSize="17" styleClass="nav-icon" />
+                    </graphic>
+                    <tooltip><Tooltip text="Afficher le cockpit médical" /></tooltip>
+                </Button>
+                <Button fx:id="patientsNavButton" maxWidth="1.7976931348623157E308" onAction="#showPatients" styleClass="nav-button" text="Patients">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="USERS" glyphSize="17" styleClass="nav-icon" />
+                    </graphic>
+                    <tooltip><Tooltip text="Gérer les patients" /></tooltip>
+                </Button>
+                <Button fx:id="rendezVousNavButton" maxWidth="1.7976931348623157E308" onAction="#showRendezVous" styleClass="nav-button" text="Rendez-vous">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="CALENDAR" glyphSize="17" styleClass="nav-icon" />
+                    </graphic>
+                    <tooltip><Tooltip text="Planifier les rendez-vous" /></tooltip>
+                </Button>
+                <Button fx:id="statsNavButton" maxWidth="1.7976931348623157E308" onAction="#showStats" styleClass="nav-button" text="Statistiques">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="BAR_CHART" glyphSize="17" styleClass="nav-icon" />
+                    </graphic>
+                    <tooltip><Tooltip text="Voir les statistiques" /></tooltip>
+                </Button>
+                <Button fx:id="exportNavButton" maxWidth="1.7976931348623157E308" onAction="#showExport" styleClass="nav-button" text="Export">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="DOWNLOAD" glyphSize="17" styleClass="nav-icon" />
+                    </graphic>
+                    <tooltip><Tooltip text="Exporter le résumé dashboard" /></tooltip>
+                </Button>
+                <Button fx:id="settingsNavButton" maxWidth="1.7976931348623157E308" onAction="#showSettings" styleClass="nav-button" text="Paramètres">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="COG" glyphSize="17" styleClass="nav-icon" />
+                    </graphic>
+                    <tooltip><Tooltip text="Personnaliser l'application" /></tooltip>
+                </Button>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <VBox spacing="10" styleClass="sidebar-footer">
+                <Label text="Couleur d'accent" styleClass="small-label" />
+                <ColorPicker fx:id="themePicker" maxWidth="1.7976931348623157E308" onAction="#handleThemeChanged" />
+                <Label text="Système IA clinique actif" styleClass="ai-chip" />
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentPane" styleClass="content-shell">
+            <VBox fx:id="dashboardHome" spacing="22" styleClass="screen">
+                <HBox alignment="CENTER_LEFT" spacing="16" styleClass="page-header">
+                    <VBox spacing="4">
+                        <Label text="Cockpit médical intelligent" styleClass="page-title" />
+                        <Label fx:id="connectionStatusLabel" text="Synchronisation en cours..." styleClass="page-subtitle" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button onAction="#refreshDashboard" styleClass="secondary-button" text="Actualiser">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="REFRESH" glyphSize="15" styleClass="button-icon" />
+                        </graphic>
+                        <tooltip><Tooltip text="Recharger les statistiques" /></tooltip>
+                    </Button>
+                </HBox>
+
+                <HBox spacing="18" styleClass="stats-row">
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Patients total" styleClass="stat-label" />
+                        <Label fx:id="totalPatientsLabel" text="0" styleClass="stat-value" />
+                        <Label text="Dossiers synchronisés" styleClass="stat-caption" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Rendez-vous aujourd'hui" styleClass="stat-label" />
+                        <Label fx:id="todayAppointmentsLabel" text="0" styleClass="stat-value" />
+                        <Label text="Planning clinique" styleClass="stat-caption" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Patients actifs" styleClass="stat-label" />
+                        <Label fx:id="activePatientsLabel" text="0" styleClass="stat-value" />
+                        <Label text="Suivi médical actif" styleClass="stat-caption" />
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="18" VBox.vgrow="ALWAYS">
+                    <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="chart-panel glass-card">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Évolution patients" styleClass="section-title" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <ProgressBar fx:id="statsProgressBar" prefWidth="150" progress="0" />
+                        </HBox>
+                        <LineChart fx:id="patientsLineChart" animated="true" legendVisible="false" VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis side="LEFT" tickUnit="1" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+
+                    <VBox prefWidth="390" spacing="18">
+                        <VBox spacing="12" styleClass="chart-panel glass-card" VBox.vgrow="ALWAYS">
+                            <Label text="Prochains rendez-vous" styleClass="section-title" />
+                            <ListView fx:id="upcomingAppointmentsList" VBox.vgrow="ALWAYS" />
+                        </VBox>
+
+                        <VBox spacing="12" styleClass="health-panel glass-card">
+                            <HBox alignment="CENTER_LEFT">
+                                <VBox spacing="4">
+                                    <Label text="Indicateur santé global" styleClass="section-title" />
+                                    <Label text="Score composite activité + suivi" styleClass="muted-label" />
+                                </VBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="healthScoreLabel" text="0%" styleClass="health-score" />
+                            </HBox>
+                            <ProgressBar fx:id="healthProgressBar" maxWidth="1.7976931348623157E308" progress="0" />
+                        </VBox>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="18">
+                    <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="chart-panel glass-card">
+                        <Label text="Répartition hommes / femmes" styleClass="section-title" />
+                        <PieChart fx:id="genderPieChart" labelsVisible="true" legendVisible="true" prefHeight="210" />
+                    </VBox>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

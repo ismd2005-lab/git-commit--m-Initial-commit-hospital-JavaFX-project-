@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #F8FBFF
+  BorderColor #1A8BFF
+}
+
+actor "Administrateur clinique" as Admin
+actor "Assistant medical" as Assistant
+
+rectangle "MedVision AI Healthcare Dashboard" {
+  usecase "Consulter le dashboard" as UC1
+  usecase "Gerer les patients" as UC2
+  usecase "Ajouter / modifier / supprimer un patient" as UC3
+  usecase "Rechercher et filtrer les patients" as UC4
+  usecase "Gerer les rendez-vous" as UC5
+  usecase "Planifier / modifier / annuler un rendez-vous" as UC6
+  usecase "Consulter les statistiques" as UC7
+  usecase "Exporter CSV" as UC8
+  usecase "Personnaliser le theme" as UC9
+}
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC5
+Admin --> UC7
+Admin --> UC8
+Admin --> UC9
+Assistant --> UC2
+Assistant --> UC5
+Assistant --> UC4
+
+UC2 .> UC3 : include
+UC2 .> UC4 : include
+UC5 .> UC6 : include
+@enduml

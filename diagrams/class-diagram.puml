@@ -1,0 +1,76 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam class {
+  BackgroundColor #F8FBFF
+  BorderColor #1A8BFF
+  ArrowColor #1A8BFF
+}
+
+class Patient {
+  - int idPatient
+  - String nom
+  - String prenom
+  - int age
+  - String sexe
+  - String telephone
+  - String email
+  - String description
+  - LocalDate dateCreation
+  - boolean actif
+}
+
+class RendezVous {
+  - int idRdv
+  - int idPatient
+  - String patientNomComplet
+  - LocalDate dateRdv
+  - String heure
+  - String medecin
+  - String specialite
+  - String statut
+  - String remarque
+}
+
+class Database {
+  + getConnection() Connection
+  + isReachable() boolean
+}
+
+class PatientDAO {
+  + findAll() List<Patient>
+  + findByCriteria(keyword, sexe, actif) List<Patient>
+  + save(patient) void
+  + update(patient) void
+  + delete(idPatient) void
+  + countAll() int
+  + countActive() int
+}
+
+class RendezVousDAO {
+  + findAll() List<RendezVous>
+  + findByCriteria(keyword, specialite, statut) List<RendezVous>
+  + save(rendezVous) void
+  + update(rendezVous) void
+  + delete(idRdv) void
+  + countToday() int
+}
+
+class DashboardController
+class PatientController
+class RendezVousController
+class CsvExporter
+
+Patient "1" <-- "0..*" RendezVous
+PatientDAO ..> Patient
+RendezVousDAO ..> RendezVous
+PatientDAO ..> Database
+RendezVousDAO ..> Database
+DashboardController ..> PatientDAO
+DashboardController ..> RendezVousDAO
+PatientController ..> PatientDAO
+RendezVousController ..> RendezVousDAO
+RendezVousController ..> PatientDAO
+PatientController ..> CsvExporter
+RendezVousController ..> CsvExporter
+@enduml

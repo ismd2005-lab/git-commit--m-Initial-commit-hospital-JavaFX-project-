@@ -1,0 +1,475 @@
+﻿RAPPORT DU MINI PROJET GI3
+
+Application JavaFX de Gestion d'une Clinique Medicale
+MedVision AI Healthcare Dashboard
+
+
+Realise par :
+[Nom et prenom]
+
+Encadre par :
+[Nom de l'encadrant]
+
+Annee universitaire :
+2025 / 2026
+
+
+SOMMAIRE
+
+1. Introduction
+2. Presentation du projet
+3. Analyse des besoins
+4. Conception de l'application
+5. Realisation technique
+6. Presentation des interfaces
+7. Base de donnees
+8. Tests et validation
+9. Conclusion
+
+
+1. INTRODUCTION
+
+Dans le cadre du mini projet GI3, nous avons realise une application desktop de gestion medicale developpee avec JavaFX. Le projet consiste a concevoir et implementer une solution permettant a une clinique de gerer ses patients, ses rendez-vous, ses statistiques et ses exports de donnees.
+
+L'application porte le nom MedVision AI Healthcare Dashboard. Elle adopte une interface moderne et ergonomique, avec un tableau de bord central permettant de visualiser rapidement les informations importantes de la clinique. Le projet repose sur une architecture MVC, une base de donnees MySQL et une organisation claire du code en modeles, DAO, controleurs et vues FXML.
+
+
+2. PRESENTATION DU PROJET
+
+MedVision AI Healthcare Dashboard est une application desktop destinee a faciliter la gestion quotidienne d'une clinique medicale.
+
+Elle permet principalement de :
+- gerer les dossiers des patients ;
+- ajouter, modifier, supprimer et rechercher des patients ;
+- planifier et suivre les rendez-vous medicaux ;
+- filtrer les donnees selon plusieurs criteres ;
+- afficher des statistiques sur les patients et les rendez-vous ;
+- exporter les donnees au format CSV ;
+- personnaliser l'apparence de l'application.
+
+L'objectif principal du projet est de centraliser les informations medicales essentielles dans une interface simple, claire et efficace.
+
+
+3. ANALYSE DES BESOINS
+
+3.1 Acteurs du systeme
+
+Les principaux acteurs de l'application sont :
+
+Administrateur clinique :
+Il peut consulter le tableau de bord, gerer les patients, gerer les rendez-vous, consulter les statistiques, exporter les donnees et personnaliser le theme.
+
+Assistant medical :
+Il peut gerer les patients, gerer les rendez-vous, rechercher et filtrer les informations necessaires au suivi medical.
+
+3.2 Besoins fonctionnels
+
+L'application doit permettre les fonctionnalites suivantes :
+
+Gestion des patients :
+- ajouter un nouveau patient ;
+- modifier les informations d'un patient existant ;
+- supprimer un patient ;
+- consulter la liste des patients ;
+- rechercher un patient par nom, prenom ou telephone ;
+- filtrer les patients par sexe ou par statut actif/inactif ;
+- exporter la liste des patients en CSV.
+
+Gestion des rendez-vous :
+- ajouter un rendez-vous ;
+- modifier un rendez-vous ;
+- supprimer un rendez-vous ;
+- associer un rendez-vous a un patient ;
+- choisir une specialite medicale ;
+- selectionner ou saisir un medecin ;
+- definir une date, une heure et un statut ;
+- rechercher un rendez-vous par patient ou medecin ;
+- filtrer les rendez-vous par specialite ou statut ;
+- exporter les rendez-vous en CSV.
+
+Tableau de bord :
+- afficher le nombre total de patients ;
+- afficher le nombre de patients actifs ;
+- afficher le nombre de rendez-vous du jour ;
+- afficher un indicateur global de suivi ;
+- afficher l'evolution des patients par mois ;
+- afficher la repartition hommes/femmes ;
+- afficher les prochains rendez-vous.
+
+Parametres et personnalisation :
+- modifier la couleur d'accent de l'interface ;
+- consulter l'etat de connexion a la base de donnees.
+
+3.3 Besoins non fonctionnels
+
+L'application doit etre :
+- ergonomique et simple a utiliser ;
+- fiable dans la manipulation des donnees ;
+- organisee selon une architecture claire ;
+- connectee a une base de donnees MySQL ;
+- maintenable grace a la separation entre interface, logique metier et acces aux donnees ;
+- capable de gerer les erreurs de connexion et de saisie.
+
+
+4. CONCEPTION DE L'APPLICATION
+
+4.1 Architecture generale
+
+Le projet suit l'architecture MVC : Modele, Vue, Controleur.
+
+Modele :
+Les classes Patient et RendezVous representent les donnees principales de l'application.
+
+Vue :
+Les interfaces sont definies dans des fichiers FXML :
+- dashboard.fxml ;
+- patients.fxml ;
+- rendezvous.fxml.
+
+Controleur :
+Les controleurs Java gerent les actions utilisateur et la logique d'affichage :
+- DashboardController ;
+- PatientController ;
+- RendezVousController.
+
+DAO :
+Les classes DAO assurent la communication avec la base de donnees :
+- PatientDAO ;
+- RendezVousDAO ;
+- Database.
+
+Cette organisation permet de separer clairement les responsabilites et de rendre le code plus lisible et maintenable.
+
+4.2 Diagramme de cas d'utilisation
+
+Le diagramme de cas d'utilisation montre les interactions entre les acteurs et le systeme.
+
+Les principaux cas d'utilisation sont :
+- consulter le dashboard ;
+- gerer les patients ;
+- ajouter, modifier ou supprimer un patient ;
+- rechercher et filtrer les patients ;
+- gerer les rendez-vous ;
+- planifier, modifier ou annuler un rendez-vous ;
+- consulter les statistiques ;
+- exporter les donnees CSV ;
+- personnaliser le theme.
+
+4.3 Diagramme de classes
+
+Le diagramme de classes represente les principales classes du systeme.
+
+La classe Patient contient les informations suivantes :
+- idPatient ;
+- nom ;
+- prenom ;
+- age ;
+- sexe ;
+- telephone ;
+- email ;
+- description ;
+- date de creation ;
+- statut actif.
+
+La classe RendezVous contient :
+- idRdv ;
+- idPatient ;
+- nom complet du patient ;
+- date du rendez-vous ;
+- heure ;
+- medecin ;
+- specialite ;
+- statut ;
+- remarque.
+
+Les classes PatientDAO et RendezVousDAO permettent d'effectuer les operations CRUD sur les tables de la base de donnees. La classe Database centralise la connexion JDBC.
+
+
+5. REALISATION TECHNIQUE
+
+5.1 Technologies utilisees
+
+Le projet a ete developpe avec les technologies suivantes :
+
+Java 17 :
+Langage principal utilise pour le developpement de l'application.
+
+JavaFX :
+Framework utilise pour creer l'interface graphique.
+
+FXML :
+Format XML utilise pour separer la structure de l'interface du code Java.
+
+CSS :
+Utilise pour personnaliser le style visuel de l'application.
+
+MySQL :
+Systeme de gestion de base de donnees utilise pour stocker les patients et les rendez-vous.
+
+JDBC :
+API utilisee pour connecter l'application Java a la base de donnees MySQL.
+
+Maven :
+Outil utilise pour gerer les dependances et lancer le projet.
+
+FontAwesomeFX :
+Bibliotheque utilisee pour ajouter des icones a l'interface.
+
+5.2 Structure du projet
+
+Le projet est organise comme suit :
+
+src/
+- models/
+  - Patient.java
+  - RendezVous.java
+
+- dao/
+  - Database.java
+  - PatientDAO.java
+  - RendezVousDAO.java
+
+- controllers/
+  - DashboardController.java
+  - PatientController.java
+  - RendezVousController.java
+  - CsvExporter.java
+
+- views/
+  - dashboard.fxml
+  - patients.fxml
+  - rendezvous.fxml
+
+- css/
+  - style.css
+
+- Main.java
+
+Le fichier Main.java lance l'application JavaFX et charge la vue principale dashboard.fxml.
+
+5.3 Gestion de la connexion a la base de donnees
+
+La classe Database contient la configuration de connexion a MySQL. Elle utilise JDBC pour etablir la connexion avec la base medvision_ai.
+
+La connexion peut etre personnalisee a l'aide de variables d'environnement :
+- MEDVISION_DB_URL ;
+- MEDVISION_DB_USER ;
+- MEDVISION_DB_PASSWORD.
+
+Si aucune variable n'est definie, l'application utilise une configuration par defaut pointant vers une base locale MySQL.
+
+5.4 Gestion des patients
+
+La gestion des patients est assuree par PatientController et PatientDAO.
+
+PatientController gere :
+- la saisie des informations ;
+- la validation des champs ;
+- l'affichage dans le tableau ;
+- la recherche dynamique ;
+- les filtres ;
+- les actions ajouter, modifier et supprimer.
+
+PatientDAO gere :
+- l'insertion d'un patient ;
+- la modification d'un patient ;
+- la suppression d'un patient ;
+- la recuperation des patients ;
+- les recherches avec criteres ;
+- les statistiques liees aux patients.
+
+Une validation est effectuee sur certains champs, notamment l'adresse email.
+
+5.5 Gestion des rendez-vous
+
+La gestion des rendez-vous est assuree par RendezVousController et RendezVousDAO.
+
+RendezVousController permet :
+- de selectionner un patient ;
+- de choisir une date ;
+- de saisir une heure ;
+- de choisir une specialite ;
+- de selectionner un medecin ;
+- de definir un statut ;
+- d'ajouter une remarque ;
+- de rechercher et filtrer les rendez-vous.
+
+Une validation est appliquee au format de l'heure, qui doit respecter le format HH:mm.
+
+RendezVousDAO realise les operations SQL necessaires et utilise une jointure entre RENDEZVOUS et PATIENT afin d'afficher le nom complet du patient dans la table des rendez-vous.
+
+5.6 Export CSV
+
+La classe CsvExporter permet d'exporter les donnees affichees dans les tables vers un fichier CSV.
+
+Elle est utilisee pour :
+- exporter les patients ;
+- exporter les rendez-vous ;
+- exporter un resume du dashboard.
+
+L'export utilise FileChooser afin de laisser l'utilisateur choisir l'emplacement du fichier.
+
+
+6. PRESENTATION DES INTERFACES
+
+6.1 Interface principale : Dashboard
+
+Le tableau de bord est l'ecran principal de l'application. Il contient :
+- un menu lateral de navigation ;
+- un menu superieur ;
+- des cartes statistiques ;
+- un graphique d'evolution des patients ;
+- un graphique de repartition par sexe ;
+- une liste des prochains rendez-vous ;
+- un indicateur global de sante ;
+- un selecteur de couleur pour modifier le theme.
+
+Cette interface permet a l'utilisateur d'avoir une vue globale sur l'activite de la clinique.
+
+6.2 Interface de gestion des patients
+
+L'interface patients contient :
+- un formulaire de saisie ;
+- une zone d'informations personnelles ;
+- une zone d'informations medicales ;
+- un tableau d'affichage des patients ;
+- une recherche dynamique ;
+- des filtres par sexe et statut ;
+- des boutons pour ajouter, modifier, supprimer, reinitialiser et exporter.
+
+Lorsqu'un patient est selectionne dans le tableau, ses informations sont automatiquement chargees dans le formulaire.
+
+6.3 Interface de gestion des rendez-vous
+
+L'interface rendez-vous contient :
+- un formulaire de planification ;
+- une liste des patients ;
+- une date de rendez-vous ;
+- une heure ;
+- une specialite ;
+- un medecin ;
+- un statut ;
+- une remarque ;
+- une liste rapide des medecins ;
+- un tableau des rendez-vous ;
+- des filtres par specialite et statut.
+
+Cette interface facilite la planification et le suivi des rendez-vous medicaux.
+
+6.4 Style graphique
+
+Le fichier style.css definit une interface moderne avec :
+- couleurs personnalisables ;
+- cartes statistiques ;
+- boutons stylises ;
+- icones FontAwesome ;
+- tableaux ameliores ;
+- effets visuels ;
+- menu lateral clair et lisible.
+
+L'application adopte une apparence professionnelle adaptee au domaine medical.
+
+
+7. BASE DE DONNEES
+
+7.1 Presentation
+
+La base de donnees utilisee est medvision_ai. Elle contient deux tables principales :
+- PATIENT ;
+- RENDEZVOUS.
+
+7.2 Table PATIENT
+
+La table PATIENT contient les informations des patients.
+
+Champs principaux :
+- id_patient : identifiant unique du patient ;
+- nom : nom du patient ;
+- prenom : prenom du patient ;
+- age : age du patient ;
+- sexe : sexe du patient ;
+- telephone : numero de telephone ;
+- email : adresse email ;
+- description : informations medicales ;
+- date_creation : date de creation du dossier ;
+- actif : statut du patient.
+
+7.3 Table RENDEZVOUS
+
+La table RENDEZVOUS contient les rendez-vous medicaux.
+
+Champs principaux :
+- id_rdv : identifiant unique du rendez-vous ;
+- id_patient : identifiant du patient concerne ;
+- date_rdv : date du rendez-vous ;
+- heure : heure du rendez-vous ;
+- medecin : medecin responsable ;
+- specialite : specialite medicale ;
+- statut : etat du rendez-vous ;
+- remarque : remarque complementaire.
+
+7.4 Relation entre les tables
+
+La relation entre PATIENT et RENDEZVOUS est une relation de type un-a-plusieurs.
+
+Un patient peut avoir plusieurs rendez-vous. Un rendez-vous appartient a un seul patient.
+
+La cle etrangere id_patient dans la table RENDEZVOUS reference id_patient dans la table PATIENT.
+
+L'option ON DELETE CASCADE permet de supprimer automatiquement les rendez-vous lies lorsqu'un patient est supprime.
+
+
+8. TESTS ET VALIDATION
+
+Plusieurs tests fonctionnels ont ete realises afin de verifier le bon fonctionnement de l'application.
+
+Tests sur les patients :
+- ajout d'un patient avec des informations valides ;
+- modification d'un patient existant ;
+- suppression d'un patient ;
+- recherche par nom, prenom ou telephone ;
+- filtre par sexe ;
+- filtre par statut actif ou inactif ;
+- validation du format email.
+
+Tests sur les rendez-vous :
+- ajout d'un rendez-vous associe a un patient ;
+- modification d'un rendez-vous ;
+- suppression d'un rendez-vous ;
+- validation du format de l'heure ;
+- filtre par specialite ;
+- filtre par statut ;
+- recherche par patient ou medecin.
+
+Tests sur le dashboard :
+- affichage du nombre total de patients ;
+- affichage des patients actifs ;
+- affichage des rendez-vous du jour ;
+- affichage des graphiques ;
+- affichage des prochains rendez-vous ;
+- gestion du cas ou la base de donnees est indisponible.
+
+Tests sur l'export :
+- export de la table des patients ;
+- export de la table des rendez-vous ;
+- export du resume du dashboard.
+
+Les tests montrent que les fonctionnalites principales sont operationnelles et que l'application repond aux besoins definis.
+
+
+9. CONCLUSION
+
+Ce projet nous a permis de mettre en pratique plusieurs notions importantes du developpement Java, notamment la programmation orientee objet, JavaFX, JDBC, MySQL, Maven et l'architecture MVC.
+
+L'application MedVision AI Healthcare Dashboard offre une solution complete pour gerer les patients et les rendez-vous d'une clinique medicale. Elle propose une interface moderne, des fonctionnalites CRUD, des recherches dynamiques, des filtres, des statistiques et des exports CSV.
+
+Le projet peut encore etre ameliore par l'ajout de nouvelles fonctionnalites, comme :
+- l'authentification des utilisateurs ;
+- la gestion des roles ;
+- l'impression des fiches patients ;
+- la generation de rapports PDF ;
+- les notifications de rendez-vous ;
+- l'historique medical detaille ;
+- la sauvegarde automatique des donnees.
+
+En conclusion, ce mini projet constitue une application fonctionnelle, structuree et evolutive, repondant aux principaux besoins de gestion d'une clinique medicale.

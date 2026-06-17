@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="screen" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PatientController">
+    <top>
+        <VBox spacing="14">
+            <HBox alignment="CENTER_LEFT" spacing="16" styleClass="page-header">
+                <VBox spacing="4">
+                    <Label text="Gestion des patients" styleClass="page-title" />
+                    <Label text="Dossiers médicaux, recherche dynamique et état clinique" styleClass="page-subtitle" />
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <TextField fx:id="searchField" prefWidth="280" promptText="Rechercher nom ou téléphone" styleClass="search-field" />
+                <Button onAction="#handleSearchPatient" styleClass="secondary-button" text="Rechercher">
+                    <graphic><FontAwesomeIconView glyphName="SEARCH" glyphSize="15" styleClass="button-icon" /></graphic>
+                    <tooltip><Tooltip text="Rechercher un patient" /></tooltip>
+                </Button>
+                <Button onAction="#handleExportPatients" styleClass="export-button" text="Exporter">
+                    <graphic><FontAwesomeIconView glyphName="DOWNLOAD" glyphSize="15" styleClass="button-icon" /></graphic>
+                    <tooltip><Tooltip text="Exporter les patients en CSV" /></tooltip>
+                </Button>
+            </HBox>
+        </VBox>
+    </top>
+
+    <left>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="430" styleClass="transparent-scroll">
+            <content>
+                <VBox spacing="16" styleClass="form-panel glass-card">
+                    <padding>
+                        <Insets top="18" right="18" bottom="18" left="18" />
+                    </padding>
+
+                    <Label text="Fiche patient" styleClass="section-title" />
+
+                    <Accordion fx:id="patientAccordion">
+                        <panes>
+                            <TitledPane fx:id="personalPane" animated="true" text="Informations personnelles">
+                                <content>
+                                    <GridPane hgap="12" vgap="12">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="38" />
+                                            <ColumnConstraints percentWidth="62" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                        </rowConstraints>
+
+                                        <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <TextField fx:id="nomField" promptText="Nom patient" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                        <Label text="Prénom" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="prenomField" promptText="Prénom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                        <Label text="Téléphone" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <TextField fx:id="telephoneField" promptText="06..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                        <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <TextField fx:id="emailField" promptText="patient@clinique.ma" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                        <Label text="Date naissance" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                        <DatePicker fx:id="birthDatePicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                        <Label text="Age" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                        <Spinner fx:id="ageSpinner" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                        <Label text="Sexe" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                        <HBox spacing="16" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                            <RadioButton fx:id="hommeRadio" text="Homme">
+                                                <toggleGroup>
+                                                    <ToggleGroup fx:id="sexeGroup" />
+                                                </toggleGroup>
+                                            </RadioButton>
+                                            <RadioButton fx:id="femmeRadio" text="Femme" toggleGroup="$sexeGroup" />
+                                        </HBox>
+
+                                        <Label text="Statut" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                                        <CheckBox fx:id="actifCheckBox" text="Patient actif" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    </GridPane>
+                                </content>
+                            </TitledPane>
+
+                            <TitledPane animated="true" text="Informations médicales">
+                                <content>
+                                    <VBox spacing="12">
+                                        <Label text="Description patient" />
+                                        <TextArea fx:id="descriptionArea" prefRowCount="5" promptText="Résumé médical, antécédents, observations..." wrapText="true" />
+                                        <HBox alignment="CENTER_LEFT" spacing="12">
+                                            <Label text="Priorité médicale" />
+                                            <Slider fx:id="prioritySlider" blockIncrement="5" majorTickUnit="25" max="100" min="0" showTickLabels="true" showTickMarks="true" value="45" HBox.hgrow="ALWAYS" />
+                                            <Label fx:id="priorityLabel" minWidth="54" text="45/100" />
+                                        </HBox>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                        </panes>
+                    </Accordion>
+
+                    <HBox spacing="10">
+                        <Button onAction="#handleAddPatient" styleClass="primary-button" text="Ajouter">
+                            <graphic><FontAwesomeIconView glyphName="PLUS" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Ajouter le patient" /></tooltip>
+                        </Button>
+                        <Button onAction="#handleUpdatePatient" styleClass="secondary-button" text="Modifier">
+                            <graphic><FontAwesomeIconView glyphName="PENCIL" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Modifier le patient sélectionné" /></tooltip>
+                        </Button>
+                    </HBox>
+                    <HBox spacing="10">
+                        <Button onAction="#handleDeletePatient" styleClass="danger-button" text="Supprimer">
+                            <graphic><FontAwesomeIconView glyphName="TRASH" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Supprimer le patient sélectionné" /></tooltip>
+                        </Button>
+                        <Button onAction="#handleClearPatient" styleClass="ghost-button" text="Réinitialiser">
+                            <graphic><FontAwesomeIconView glyphName="REFRESH" glyphSize="15" styleClass="button-icon" /></graphic>
+                            <tooltip><Tooltip text="Vider le formulaire" /></tooltip>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </left>
+
+    <center>
+        <VBox spacing="14" styleClass="table-panel glass-card">
+            <padding>
+                <Insets top="18" right="18" bottom="18" left="18" />
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Table patients" styleClass="section-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="Sexe" styleClass="muted-label" />
+                <ComboBox fx:id="filterSexeCombo" prefWidth="130" />
+                <Label text="Statut" styleClass="muted-label" />
+                <ComboBox fx:id="filterActiveCombo" prefWidth="130" />
+            </HBox>
+
+            <TableView fx:id="patientsTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="nomColumn" prefWidth="150" text="Nom" />
+                    <TableColumn fx:id="prenomColumn" prefWidth="150" text="Prénom" />
+                    <TableColumn fx:id="ageColumn" prefWidth="90" text="Age" />
+                    <TableColumn fx:id="telephoneColumn" prefWidth="150" text="Téléphone" />
+                    <TableColumn fx:id="statutColumn" prefWidth="120" text="Statut" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+            <Label fx:id="statusLabel" text="Chargement des patients..." styleClass="status-label" />
+        </VBox>
+    </center>
+
+    <padding>
+        <Insets top="0" right="0" bottom="0" left="0" />
+    </padding>
+</BorderPane>

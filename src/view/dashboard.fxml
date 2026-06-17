@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane" styleClass="app-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
+    <top>
+        <VBox styleClass="top-shell">
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="top-bar">
+                <Label text="MedVision AI" styleClass="top-brand" />
+                <Label text="Admin Control Center" styleClass="role-pill" />
+                <Region HBox.hgrow="ALWAYS" />
+                <TextField fx:id="globalSearchField" prefWidth="430" promptText="Ctrl+K smart search: patients, appointments, invoices" styleClass="global-search" />
+                <Button onAction="#refreshDashboard" styleClass="icon-button" text="Refresh">
+                    <graphic><FontAwesomeIconView glyphName="REFRESH" glyphSize="14" styleClass="button-icon" /></graphic>
+                    <tooltip><Tooltip text="Refresh command center" /></tooltip>
+                </Button>
+                <Label fx:id="clockLabel" text="--" styleClass="top-clock" />
+            </HBox>
+            <ListView fx:id="globalSearchResultsList" prefHeight="150" styleClass="search-results" />
+        </VBox>
+    </top>
+
+    <left>
+        <VBox prefWidth="280" spacing="16" styleClass="sidebar">
+            <padding><Insets top="24" right="18" bottom="22" left="18" /></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="logo-block">
+                <FontAwesomeIconView glyphName="HEARTBEAT" glyphSize="30" styleClass="logo-icon" />
+                <VBox spacing="2">
+                    <Label text="MedVision" styleClass="logo-title" />
+                    <Label text="AI Healthcare Dashboard" styleClass="logo-subtitle" />
+                </VBox>
+            </HBox>
+
+            <Separator />
+
+            <VBox spacing="8" styleClass="nav-list">
+                <Button fx:id="dashboardNavButton" maxWidth="1.7976931348623157E308" onAction="#showDashboard" styleClass="nav-button" text="Dashboard">
+                    <graphic><FontAwesomeIconView glyphName="HOME" glyphSize="16" styleClass="nav-icon" /></graphic>
+                </Button>
+                <Button fx:id="patientsNavButton" maxWidth="1.7976931348623157E308" onAction="#showPatients" styleClass="nav-button" text="Patients">
+                    <graphic><FontAwesomeIconView glyphName="USERS" glyphSize="16" styleClass="nav-icon" /></graphic>
+                </Button>
+                <Button fx:id="appointmentsNavButton" maxWidth="1.7976931348623157E308" onAction="#showAppointments" styleClass="nav-button" text="Appointments">
+                    <graphic><FontAwesomeIconView glyphName="CALENDAR" glyphSize="16" styleClass="nav-icon" /></graphic>
+                </Button>
+                <Button fx:id="billingNavButton" maxWidth="1.7976931348623157E308" onAction="#showBilling" styleClass="nav-button" text="Billing">
+                    <graphic><FontAwesomeIconView glyphName="CREDIT_CARD" glyphSize="16" styleClass="nav-icon" /></graphic>
+                </Button>
+                <Button fx:id="notificationsNavButton" maxWidth="1.7976931348623157E308" onAction="#showNotifications" styleClass="nav-button" text="Notifications">
+                    <graphic><FontAwesomeIconView glyphName="BELL" glyphSize="16" styleClass="nav-icon" /></graphic>
+                </Button>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <VBox spacing="8" styleClass="system-panel">
+                <Label text="Runtime" styleClass="small-label" />
+                <Label fx:id="modeLabel" wrapText="true" text="In-memory mode" styleClass="mode-label" />
+                <Button onAction="#handleAbout" maxWidth="1.7976931348623157E308" styleClass="ghost-button" text="About">
+                    <graphic><FontAwesomeIconView glyphName="INFO_CIRCLE" glyphSize="14" styleClass="button-icon" /></graphic>
+                </Button>
+                <Button onAction="#handleExit" maxWidth="1.7976931348623157E308" styleClass="danger-button" text="Exit">
+                    <graphic><FontAwesomeIconView glyphName="SIGN_OUT" glyphSize="14" styleClass="button-icon" /></graphic>
+                </Button>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentPane" styleClass="content-shell">
+            <VBox fx:id="dashboardHome" spacing="18" styleClass="screen">
+                <HBox alignment="CENTER_LEFT" spacing="16" styleClass="page-header">
+                    <VBox spacing="4">
+                        <Label text="Hospital Control Center" styleClass="page-title" />
+                        <Label text="Real-time clinic telemetry, simulated AI signals and operational analytics" styleClass="page-subtitle" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label text="AI Simulation Online" styleClass="ai-chip" />
+                </HBox>
+
+                <HBox spacing="14" styleClass="stats-row">
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Total patients" styleClass="stat-label" />
+                        <Label fx:id="totalPatientsLabel" text="0" styleClass="stat-value accent-blue" />
+                        <Label text="Patient records" styleClass="stat-caption" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Appointments today" styleClass="stat-label" />
+                        <Label fx:id="todayAppointmentsLabel" text="0" styleClass="stat-value accent-teal" />
+                        <Label text="Live schedule load" styleClass="stat-caption" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Paid revenue" styleClass="stat-label" />
+                        <Label fx:id="revenueLabel" text="USD 0.00" styleClass="stat-value accent-green" />
+                        <Label text="Mock billing analytics" styleClass="stat-caption" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="8" styleClass="stat-card glass-card">
+                        <Label text="Occupancy" styleClass="stat-label" />
+                        <Label fx:id="occupancyLabel" text="0%" styleClass="stat-value accent-amber" />
+                        <ProgressBar fx:id="occupancyProgress" maxWidth="1.7976931348623157E308" progress="0" />
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="14">
+                    <VBox HBox.hgrow="ALWAYS" spacing="10" styleClass="chart-panel glass-card">
+                        <Label text="Patient acquisition" styleClass="section-title" />
+                        <LineChart fx:id="patientsLineChart" animated="false" createSymbols="true" legendVisible="false" VBox.vgrow="ALWAYS">
+                            <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                            <yAxis><NumberAxis side="LEFT" tickUnit="1" /></yAxis>
+                        </LineChart>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="10" styleClass="chart-panel glass-card">
+                        <Label text="Appointments by specialty" styleClass="section-title" />
+                        <BarChart fx:id="specialtyBarChart" animated="false" legendVisible="false" VBox.vgrow="ALWAYS">
+                            <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                            <yAxis><NumberAxis side="LEFT" tickUnit="1" /></yAxis>
+                        </BarChart>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="14" VBox.vgrow="ALWAYS">
+                    <VBox HBox.hgrow="ALWAYS" spacing="10" styleClass="glass-card command-panel">
+                        <Label text="Command notifications" styleClass="section-title" />
+                        <ListView fx:id="notificationsList" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="10" styleClass="glass-card command-panel">
+                        <Label text="AI risk and diagnosis simulation" styleClass="section-title" />
+                        <ListView fx:id="aiInsightsList" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                    <VBox prefWidth="300" spacing="10" styleClass="glass-card command-panel">
+                        <Label text="Billing mix" styleClass="section-title" />
+                        <PieChart fx:id="billingPieChart" labelsVisible="true" legendVisible="true" VBox.vgrow="ALWAYS" />
+                        <HBox spacing="10">
+                            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat">
+                                <Label text="Active" styleClass="mini-label" />
+                                <Label fx:id="activePatientsLabel" text="0" styleClass="mini-value" />
+                            </VBox>
+                            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat">
+                                <Label text="Overdue" styleClass="mini-label" />
+                                <Label fx:id="overdueInvoicesLabel" text="0" styleClass="mini-value danger-text" />
+                            </VBox>
+                            <VBox HBox.hgrow="ALWAYS" styleClass="mini-stat">
+                                <Label text="Risk" styleClass="mini-label" />
+                                <Label fx:id="averageRiskLabel" text="0%" styleClass="mini-value" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
