@@ -1,94 +1,130 @@
-# MedVision AI Healthcare Dashboard
+# MedVision AI - Gestion d'Hôpital JavaFX
 
-Application desktop JavaFX MVC pour la gestion futuriste d'une clinique medicale : patients, rendez-vous, statistiques, recherche, filtres et export CSV.
+## Présentation du projet
 
-## Stack
+MedVision AI est une application desktop développée en JavaFX pour la gestion d'un hôpital ou d'une clinique médicale.
 
-- Java 17+
-- JavaFX + FXML + CSS
-- JDBC MySQL
-- Pattern DAO
-- FontAwesomeFX
+Ce projet a été réalisé dans le cadre du mini-projet JavaFX du module DEV Java IHM. L'objectif est de concevoir une application complète avec une interface graphique JavaFX, connectée à une base de données MySQL, en respectant une architecture organisée.
+
+L'application permet principalement de gérer les patients, les rendez-vous médicaux, les statistiques et l'export des données.
+
+## Sujet choisi
+
+Le sujet choisi est :
+
+**Gestion d'un hôpital**
+
+Ce choix est cohérent avec les exigences du mini-projet, car il permet de gérer deux entités principales liées entre elles :
+
+- Patient
+- Rendez-vous
+
+Un patient peut avoir plusieurs rendez-vous, et chaque rendez-vous appartient à un seul patient.
+
+## Objectifs de l'application
+
+L'application permet de :
+
+- Ajouter, modifier, supprimer et afficher les patients.
+- Ajouter, modifier, supprimer et afficher les rendez-vous.
+- Associer chaque rendez-vous à un patient.
+- Rechercher et filtrer les données.
+- Afficher des statistiques dans un tableau de bord.
+- Exporter les données au format CSV.
+- Utiliser une interface graphique claire avec JavaFX, FXML et CSS.
+
+## Fonctionnalités principales
+
+### Gestion des patients
+
+- Ajout d'un nouveau patient.
+- Modification des informations d'un patient.
+- Suppression d'un patient.
+- Affichage des patients dans un tableau.
+- Recherche par nom, prénom ou téléphone.
+- Filtrage par sexe ou statut actif.
+
+### Gestion des rendez-vous
+
+- Création d'un rendez-vous médical.
+- Modification d'un rendez-vous.
+- Suppression d'un rendez-vous.
+- Association d'un rendez-vous avec un patient.
+- Filtrage par spécialité ou statut.
+- Affichage des rendez-vous dans un tableau.
+
+### Tableau de bord
+
+- Nombre total de patients.
+- Nombre total de rendez-vous.
+- Rendez-vous proches.
+- Indicateurs visuels.
+- Statistiques médicales simples.
+
+### Export
+
+- Export des données au format CSV.
+- Utilisation de FileChooser pour choisir l'emplacement du fichier.
+
+## Contrôles JavaFX utilisés
+
+Le projet utilise plusieurs contrôles JavaFX demandés dans le mini-projet :
+
+- TextField
+- TextArea
+- Button
+- Label
+- RadioButton
+- ToggleGroup
+- CheckBox
+- ComboBox
+- ListView
+- TableView
+- DatePicker
+- Slider
+- Spinner
+- ProgressBar
+- ProgressIndicator
+- Tooltip
+- MenuBar
+- Alert
+- Dialog
+- Accordion
+- TitledPane
+- ColorPicker
+- FileChooser
+
+## Technologies utilisées
+
+- Java 17 ou version supérieure
+- JavaFX
+- FXML
+- CSS
 - Maven
+- MySQL
+- JDBC
+- Pattern DAO
+- Architecture MVC
 
-## Installation
-
-1. Installer Java 17 ou plus et MySQL.
-2. Creer la base avec le script :
-
-```bash
-mysql -u root -p < init_db.sql
-```
-
-3. Configurer la connexion MySQL si vos identifiants ne sont pas ceux par defaut :
-
-```bash
-set MEDVISION_DB_URL=jdbc:mysql://localhost:3306/medvision_ai?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-set MEDVISION_DB_USER=root
-set MEDVISION_DB_PASSWORD=votre_mot_de_passe
-```
-
-Sous PowerShell :
-
-```powershell
-$env:MEDVISION_DB_URL="jdbc:mysql://localhost:3306/medvision_ai?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
-$env:MEDVISION_DB_USER="root"
-$env:MEDVISION_DB_PASSWORD="votre_mot_de_passe"
-```
-
-4. Lancer l'application :
-
-```bash
-mvn clean javafx:run
-```
-
-## Configuration par defaut
-
-Sans variables d'environnement, l'application utilise :
-
-- URL : `jdbc:mysql://localhost:3306/medvision_ai?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true`
-- User : `root`
-- Password : vide
-
-## Fonctionnalites
-
-- Dashboard medical futuriste avec cartes KPI, graphiques et rendez-vous proches.
-- CRUD complet des patients.
-- CRUD complet des rendez-vous.
-- Recherche dynamique par nom, prenom et telephone.
-- Filtres par sexe, statut actif, specialite et statut de rendez-vous.
-- Export CSV des tables avec `FileChooser`.
-- Alertes de confirmation et messages d'erreur.
-- Personnalisation de la couleur d'accent avec `ColorPicker`.
-
-## Structure
+## Structure du projet
 
 ```text
-src/
- ├── models/
- │     ├── Patient.java
- │     └── RendezVous.java
- ├── dao/
- │     ├── Database.java
- │     ├── PatientDAO.java
- │     └── RendezVousDAO.java
- ├── controllers/
- │     ├── DashboardController.java
- │     ├── PatientController.java
- │     ├── RendezVousController.java
- │     └── CsvExporter.java
- ├── views/
- │     ├── dashboard.fxml
- │     ├── patients.fxml
- │     └── rendezvous.fxml
- ├── css/
- │     └── style.css
- └── Main.java
-```
+hospital-management-javafx/
+├── README.md
+├── init_db.sql
+├── pom.xml
+├── diagrams/
+│   ├── class-diagram.puml
+│   └── use-case-diagram.puml
+├── src/
+│   ├── Main.java
+│   ├── config/
+│   ├── controller/
+│   ├── dao/
+│   ├── model/
+│   ├── repository/
+│   ├── service/
+│   ├── util/
+│   ├── view/
+│   └── css/
 
-## Diagrammes
-
-Les diagrammes PlantUML sont disponibles dans :
-
-- `diagrams/class-diagram.puml`
-- `diagrams/use-case-diagram.puml`
