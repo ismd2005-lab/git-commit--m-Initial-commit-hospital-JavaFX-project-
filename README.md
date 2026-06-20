@@ -128,3 +128,11 @@ hospital-management-javafx/
 │   ├── view/
 │   └── css/
 
+## Vidéo de démonstration
+
+Lien Google Drive de la vidéo :
+
+https://drive.google.com/file/d/1MH-9QFIjpN1XuioeSiGLIeEG2_jH228b/view?usp=sharing
+
+La vidéo présente rapidement l'interface de l'application, la gestion des patients, la gestion des rendez-vous, la recherche, le filtrage, les statistiques et l'export CSV.https://drive.google.com/file/d/1MH-9QFIjpN1XuioeSiGLIeEG2_jH228b/view?usp=sharing
+La vidéo présente rapidement l'interface de l'application, la gestion des patients, la gestion des rendez-vous, la recherche, le filtrage, les statistiques et l'export CSV.
